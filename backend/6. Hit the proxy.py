@@ -3,8 +3,8 @@ import requests
 import json
 
 def request_llamav2_13b(question):
-    token = "dapi718b65c1eb708cef36f9b09ee552f9bf"
-    url = 'https://adb-984752964297111.11.azuredatabricks.net/driver-proxy-api/o/0/0728-153932-k08t5wf6/7777'
+    token = "<xxxxxx>"
+    url = '<xxxxxxx>'
     
     headers = {
         "Content-Type": "application/json",
@@ -23,7 +23,7 @@ def request_llamav2_13b(question):
 
 # COMMAND ----------
 
-request_llamav2_13b("What initiatives did Unilever take to reduce its environmental impact in 2020 according to the 2020 Annual Report")
+request_llamav2_13b("what is the limit for misfuelling cost?")
 
 # COMMAND ----------
 
