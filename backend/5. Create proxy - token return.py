@@ -7,11 +7,11 @@ dbutils.library.restartPython()
 
 # COMMAND ----------
 
-# MAGIC %run ./utils/llm_libraries.py
+# MAGIC %run "./util/install-prep-libraries"
 
 # COMMAND ----------
 
-# MAGIC %run ./utils/config.py
+# MAGIC %run "./util/notebook-config"
 
 # COMMAND ----------
 
@@ -28,10 +28,10 @@ from langchain.embeddings import HuggingFaceEmbeddings,HuggingFaceInstructEmbedd
 from langchain.vectorstores.faiss import FAISS
 
 from utils.embeddings import load_vector_db
-from utils.mptbot import HuggingFacePipelineLocal, TGILocalPipeline
-from utils.qabot import *
+from backend.util.mptbot import HuggingFacePipelineLocal, TGILocalPipeline
+from backend.util.qabot import *
 from langchain.chat_models import ChatOpenAI
-from utils.app import DatabricksApp
+ from backend.util.DatabricksApp import DatabricksApp
 
 from langchain import LLMChain
 

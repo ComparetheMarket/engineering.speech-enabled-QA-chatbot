@@ -3,8 +3,8 @@ import requests
 import json
 
 def request_llamav2_13b(question):
-    token = "dapi00308e6d4b31b20e88ada51931d2c2fb-2"
-    url = 'https://adb-3744970589451902.2.azuredatabricks.net/driver-proxy-api/o/0/0724-082317-yu51nqbk/7777'
+    token = "dapi718b65c1eb708cef36f9b09ee552f9bf"
+    url = 'https://adb-984752964297111.11.azuredatabricks.net/driver-proxy-api/o/0/0728-153932-k08t5wf6/7777'
     
     headers = {
         "Content-Type": "application/json",
