@@ -1,0 +1,7 @@
+.venv
+.egg
+.whl
+.env
+.DS_Store
+.pyc
+.json
