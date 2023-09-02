@@ -1,0 +1,41 @@
+new_cluster: &new_cluster
+  new_cluster:
+    spark_version: 13.2.x-gpu-ml-scala2.12
+    node_type_id: g5.12xlarge
+    driver_node_type_id: g5.12xlarge
+    custom_tags:
+      clusterSource: llm-stack/0.1
+      ResourceClass: SingleNode
+    spark_conf:
+      spark.databricks.cluster.profile: singleNode
+      spark.master": local[*, 4]
+
+permissions: &permissions
+  permissions:
+    - level: CAN_VIEW
+      group_name: users
+
+resources:
+  jobs:
+    deploy_llm:
+      name: ${bundle.environment}-load-llm
+      job_clusters:
+        - job_cluster_key: open-llm-cluster
+          <<: *new_cluster
+      tasks:
+        - task_key: load_model
+          job_cluster_key: open-llm-cluster
+          notebook_task:
+            notebook_path: ../02_load_model.ipynb
+            base_parameters:
+              # TODO modify these arguments to reflect your setup.
+              # git source information of current ML resource deployment. It will be persisted as part of the workflow run
+              git_source_info: url:${bundle.git.origin_url}; branch:${bundle.git.branch}; commit:${bundle.git.commit}
+        - task_key: load_proxy_server
+          job_cluster_key: open-llm-cluster
+          notebook_task:
+            notebook_path: ../05_create_proxy.py
+            base_parameters:
+              # TODO: modify these arguments to reflect your setup.
+              git_source_info: url:${bundle.git.origin_url}; branch:${bundle.git.branch}; commit:${bundle.git.commit}
+      <<: *permissions

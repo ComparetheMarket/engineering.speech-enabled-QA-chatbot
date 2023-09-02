@@ -1,0 +1,12 @@
+# yaml-language-server: $schema=bundle_config_schema.json
+bundle:
+  name: llm_host_model
+
+include:
+  # Defines workflow for loading model and creating a reverse proxy method
+  - ./backend/databricks_resources/llm-model-workflow.yml
+
+environments:
+  production:
+    workspace:
+      host:  https://e2-dogfood.staging.cloud.databricks.com/

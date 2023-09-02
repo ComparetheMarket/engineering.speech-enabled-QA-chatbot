@@ -27,20 +27,14 @@ from langchain.embeddings.openai import OpenAIEmbeddings
 from langchain.embeddings import HuggingFaceEmbeddings,HuggingFaceInstructEmbeddings
 from langchain.vectorstores.faiss import FAISS
 
-from utils.embeddings import load_vector_db
+# from utils.embeddings import load_vector_db
 from backend.util.mptbot import HuggingFacePipelineLocal, TGILocalPipeline
 from backend.util.qabot import *
 from langchain.chat_models import ChatOpenAI
- from backend.util.DatabricksApp import DatabricksApp
+from backend.util.DatabricksApp import DatabricksApp
 
 from langchain import LLMChain
 
-
-# COMMAND ----------
-
-from huggingface_hub import login
-access_token_read = dbutils.secrets.get(scope="hugging_phase", key="llama")
-login(token = access_token_read)
 
 # COMMAND ----------
 
@@ -84,6 +78,10 @@ qabot = QABot(llm, retriever, chat_prompt)
 
 # COMMAND ----------
 
+qabot.get
+
+# COMMAND ----------
+
 import json
 from transformers import AutoTokenizer
 
@@ -109,16 +107,12 @@ def respond(prompt, **kwargs):
                    "answer": info['answer']}
     
     #write the file out
-    path = "/dbfs/FileStore/mz_poc/llm_responses/{}.json".format(dt_string)
-    with open(path, "w+") as f:
-        json.dump(output_dict, f)
+    # path = "/dbfs/FileStore/mz_poc/llm_responses/{}.json".format(dt_string)
+    # with open(path, "w+") as f:
+    #     json.dump(output_dict, f)
     
     return output_dict
 
-
-# COMMAND ----------
-
-print(respond("What is Unilever's revenue for 2022?"))
 
 # COMMAND ----------
 
