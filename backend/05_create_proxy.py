@@ -28,10 +28,10 @@ from langchain.embeddings import HuggingFaceEmbeddings,HuggingFaceInstructEmbedd
 from langchain.vectorstores.faiss import FAISS
 
 # from utils.embeddings import load_vector_db
-from backend.util.mptbot import HuggingFacePipelineLocal, TGILocalPipeline
-from backend.util.qabot import *
+from util.mptbot import HuggingFacePipelineLocal, TGILocalPipeline
+from util.qabot import *
 from langchain.chat_models import ChatOpenAI
-from backend.util.DatabricksApp import DatabricksApp
+from util.DatabricksApp import DatabricksApp
 
 from langchain import LLMChain
 
