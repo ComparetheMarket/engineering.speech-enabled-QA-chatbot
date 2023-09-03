@@ -1,24 +1,36 @@
 import gradio as gr
 import numpy as np
 import pandas as pd
+import time
 import os
+import yaml
 import json
 import requests
 import librosa
+from ast import literal_eval
 
 
 from dotenv import load_dotenv
+from utils import databricks_qa_chain
 
 load_dotenv()
 
 DATABRICKS_URL = os.environ["DATABRICKS_URL"]
 DATABRICKS_TOKEN = os.environ["DATABRICKS_TOKEN"]
 
+qa_chain = databricks_qa_chain(databricks_host=DATABRICKS_URL,
+                               token=DATABRICKS_TOKEN,
+                               args = 'production')
+
+    
+
+
+# qa_chain.request_llm_response("what is the limit for misfuelling cost?")
 
 def query_transcription_endpoint(
     dataset, url=DATABRICKS_URL, databricks_token=DATABRICKS_TOKEN
 ):
-    url = f"{url}/serving-endpoints/whisper-sepideh/invocations"
+    url = f"{url}/serving-endpoints/whisper-small/invocations"
     headers = {
         "Authorization": f"Bearer {databricks_token}",
         "Content-Type": "application/json",
@@ -34,7 +46,7 @@ def query_transcription_endpoint(
     return response.json()["predictions"][0]
 
 
-def respond(audio, chat_history):
+def transcribe_audio(audio, history):
     sampling_rate = audio[0]
     if sampling_rate != 16000:
         audio_resampled = (
@@ -44,13 +56,24 @@ def respond(audio, chat_history):
             / 2**15
         ).astype(int)
     dataset = pd.DataFrame({"audio": audio_resampled, "sampling_rate": 16000})
-    transcribed = query_transcription_endpoint(dataset)
-    print(transcribed)
-    chat_history.append(("You said:", transcribed))
-    return chat_history
+    time.sleep(5)
+    # transcribed = query_transcription_endpoint(dataset)
+    # print("transcribed")
+    history +=  [("what is the cost of misfuelling?",None)]
+    print(history)
+    return history
     # info = qabot.get_answer(question)
     # chat_history.append((question,info['answer']))
     # return "", chat_history , info['vector_doc'], info['source']
+
+def get_llm_response(history):
+
+    # history[-1][1] = ""
+    print(history)
+    response = qa_chain.request_llm_response(history[-1][0])
+    print("response:",literal_eval(response)['answer'])
+    history[-1][1] = literal_eval(response)['answer']
+    return history
 
 
 with gr.Blocks() as demo:
@@ -67,8 +90,7 @@ with gr.Blocks() as demo:
         # """)
     with gr.Row():
         with gr.Column():
-            chatbot = gr.Chatbot()
-
+            chatbot = gr.Chatbot(avatar_images=("image/user.jpg","image/databricks_logo.png" ))
             audio = gr.Audio(source="microphone", type="numpy", format="mp3")
 
             # submit = gr.Button("submit")
@@ -82,9 +104,16 @@ with gr.Blocks() as demo:
     #                     inputs=[msg])
     # msg.submit(respond, [msg, chatbot], [msg, chatbot,raw_text,raw_source])
     # submit.click(respond, [audio, chatbot], [audio, chatbot])
-    audio.stop_recording(respond, [audio, chatbot], chatbot)
+    audio_submit = audio.stop_recording(transcribe_audio, [audio, chatbot], chatbot).then(
+        get_llm_response, chatbot, chatbot)
+
+    audio_submit.then(lambda: gr.update(interactive=True), None, [audio], queue=False)
+    # audio.stop_recording(respond, [audio, chatbot], chatbot).then(
+    #     bot, chatbot, chatbot
+    # )
 
 if __name__ == "__main__":
+    demo.queue()
     demo.launch(
         server_name="127.0.0.1",
         server_port=7000

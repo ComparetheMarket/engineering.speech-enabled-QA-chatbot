@@ -3,5 +3,6 @@ librosa
 python-dotenv
 pydub
 sqlalchemy
+databricks-sdk
 databricks-sql-connector
 git+https://github.com/sebrahimi1988/databricks-model-serving

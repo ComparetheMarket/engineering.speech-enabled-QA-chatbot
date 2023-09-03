@@ -52,7 +52,7 @@ class QABot():
 
       # attempt to get a response
       try: 
-        result =  qa_chain.generate([{'context': context, 'question': question}])
+        result =  self.qa_chain.generate([{'context': context, 'question': question}])
         break # if successful response, stop looping
 
       # if rate limit error...

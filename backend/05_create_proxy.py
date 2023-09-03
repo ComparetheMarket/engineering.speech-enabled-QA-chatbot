@@ -78,13 +78,7 @@ qabot = QABot(llm, retriever, chat_prompt)
 
 # COMMAND ----------
 
-qabot.get
-
-# COMMAND ----------
-
 import json
-from transformers import AutoTokenizer
-
 
 from datetime import datetime
 
@@ -104,7 +98,8 @@ def respond(prompt, **kwargs):
     print("Response:",seconds)
     # create the output file  
     output_dict = {"question": prompt , 
-                   "answer": info['answer']}
+                   "answer": info['answer'],
+                   "revelant_context":info['output_metadata']}
     
     #write the file out
     # path = "/dbfs/FileStore/mz_poc/llm_responses/{}.json".format(dt_string)
