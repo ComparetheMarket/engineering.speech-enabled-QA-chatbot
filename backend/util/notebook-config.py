@@ -41,7 +41,7 @@ if config['model_id'] == 'openai':
   os.environ['OPENAI_API_KEY'] = 'xxxxxxxx'
 
 if "Llama-2" in config['model_id']:
-  config['HUGGING_FACE_HUB_TOKEN'] = 'xxxxxxxx'
+  config['HUGGING_FACE_HUB_TOKEN'] = 'xxxxxxxxxxxx'
 
 # COMMAND ----------
 
@@ -65,7 +65,6 @@ _ = mlflow.set_experiment('/Users/{}/{}'.format(username, config['registered_mod
 
 # COMMAND ----------
 
-# DBTITLE 1,Set model configs
 if config['model_id'] == "openai":
   # Set the embedding vector and model  ####
   config['embedding_model'] = 'text-embedding-ada-002'
@@ -77,7 +76,7 @@ if config['model_id'] == "openai":
 
 elif config['model_id'] == 'mosaicml/mpt-30b-chat' :
   # Setup prompt template ####
-  config['embedding_model'] = 'intfloat/e5-large-v2'
+  config['embedding_model'] = 'BAAI/bge-large-en'
 
   # Model parameters
   config['model_kwargs'] = {}
@@ -88,22 +87,22 @@ elif config['model_id'] == 'mosaicml/mpt-30b-chat' :
 
 elif config['model_id'] == 'meta-llama/Llama-2-13b-chat-hf' :
   # Setup prompt template ####
-  config['embedding_model'] = 'intfloat/e5-large-v2'
+  config['embedding_model'] = 'BAAI/bge-large-en'
   config['model_kwargs'] = {}
   
   # Model parameters
   config['pipeline_kwargs']={"temperature":  0.10,
                             "max_new_tokens": 256}
   
-  config['template'] = """<s>[INST] <<SYS>>
+  config['template'] = """<s><<SYS>>
     You are a assistant built to answer policy related questions based on the context provided, the context is a document and use no other information.
-    <</SYS>> Given the context: {context}. Answer the question {question} \n
-     If the context does not provide enough relevant information to determine the answer, just say I don't know. If the context is irrelevant to the question, just say I don't know. If you did not find a good answer from the context, just say I don't know. If the query doesn't form a complete question, just say I don't know. only answer the question asked
+    <</SYS>>[INST]Given the context: {context}. Answer the question {question} \n
+     If the context does not provide enough relevant information to determine the answer, just say I don't know. If the context is irrelevant to the question, just say I don't know. If you did not find a good answer from the context, just say I don't know. If the query doesn't form a complete question, just say I don't know. 
     [/INST]""".strip()
 
 elif config['model_id'] == 'meta-llama/Llama-2-70b-chat-hf' :
   # Setup prompt template ####
-  config['embedding_model'] = 'intfloat/e5-large-v2'
+  config['embedding_model'] = 'BAAI/bge-large-en'
   
   config['model_kwargs'] = {"load_in_8bit" : True}
 
@@ -111,9 +110,9 @@ elif config['model_id'] == 'meta-llama/Llama-2-70b-chat-hf' :
   config['pipeline_kwargs']={"temperature":  0.10,
                             "max_new_tokens": 256}
   
-  config['template'] = """<s>[INST] <<SYS>>
+  config['template'] = """<s><<SYS>>
     You are a assistant built to answer policy related questions based on the context provided, the context is a document and use no other information.
-    <</SYS>> Given the context: {context}. Answer the question {question} \n
+    <</SYS>> [INST] Given the context: {context}. Answer the question {question} \n
      If the context does not provide enough relevant information to determine the answer, just say I don't know. If the context is irrelevant to the question, just say I don't know. If the query doesn't form a complete question, just say I don't know.
     [/INST]""".strip()
 

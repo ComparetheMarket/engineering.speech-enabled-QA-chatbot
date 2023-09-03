@@ -99,7 +99,7 @@ def respond(prompt, **kwargs):
     # create the output file  
     output_dict = {"question": prompt , 
                    "answer": info['answer'],
-                   "revelant_context":info['output_metadata']}
+                   "revelant_context":info['vector_doc']}
     
     #write the file out
     # path = "/dbfs/FileStore/mz_poc/llm_responses/{}.json".format(dt_string)
