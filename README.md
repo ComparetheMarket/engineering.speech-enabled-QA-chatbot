@@ -34,12 +34,12 @@ A Q&A chatbot with ability to recognise speech and answer questions from Documen
     13       host:  https://e2-demo-field-eng.cloud.databricks.com/
     ```
 5. Optional : To use LLAMA-2 models, you need to agree to the terms and condition of HuggingFace and provide an API key to download the models
-Refer to these steps to download the key : https://huggingface.co/docs/api-inference/quicktour#get-your-api-token and set the below parameters
+Refer to these steps to download the key : https://huggingface.co/docs/api-inference/quicktour#get-your-api-token and set the below parameters in the backend/util/notebook-config.py
     ```
     43 if "Llama-2" in config['model_id']:
     44      config['HUGGING_FACE_HUB_TOKEN'] = '< your HF key>'
     ```
-6. Optional : To use Azure form-recognizer you can need to add 
+6. Optional : To use Azure form-recognizer you need to update the below parameters in the backend/util/notebook-config.py
     ```
     54    if config['use_azure_formrecognizer'] == True:
     55      config['formendpoint'] = 'xxxxxx'
