@@ -17,6 +17,7 @@ load_dotenv()
 
 DATABRICKS_URL = os.environ["DATABRICKS_URL"]
 DATABRICKS_TOKEN = os.environ["DATABRICKS_TOKEN"]
+TRANSCIPTION_MODEL = os.environ["TRANSCRIPTION_MODEL_NAME"]
 
 qa_chain = databricks_qa_chain(databricks_host=DATABRICKS_URL,
                                token=DATABRICKS_TOKEN,
@@ -28,9 +29,13 @@ qa_chain = databricks_qa_chain(databricks_host=DATABRICKS_URL,
 # qa_chain.request_llm_response("what is the limit for misfuelling cost?")
 
 def query_transcription_endpoint(
-    dataset, url=DATABRICKS_URL, databricks_token=DATABRICKS_TOKEN
-):
-    url = f"{url}/serving-endpoints/whisper-small/invocations"
+    dataset,
+    url=DATABRICKS_URL,
+    databricks_token=DATABRICKS_TOKEN,
+    transciption_model = TRANSCIPTION_MODEL
+    ):
+    url = f"{url}/serving-endpoints/{transciption_model}/invocations"
+
     headers = {
         "Authorization": f"Bearer {databricks_token}",
         "Content-Type": "application/json",
@@ -57,9 +62,9 @@ def transcribe_audio(audio, history):
         ).astype(int)
     dataset = pd.DataFrame({"audio": audio_resampled, "sampling_rate": 16000})
     time.sleep(5)
-    # transcribed = query_transcription_endpoint(dataset)
-    # print("transcribed")
-    history +=  [("what is the cost of misfuelling?",None)]
+    transcribed = query_transcription_endpoint(dataset)
+    print("transcribed:",transcribed)
+    history +=  [(transcribed,None)]
     print(history)
     return history
     # info = qabot.get_answer(question)
@@ -71,6 +76,7 @@ def get_llm_response(history):
     # history[-1][1] = ""
     print(history)
     response = qa_chain.request_llm_response(history[-1][0])
+    print("response:",response)
     print("response:",literal_eval(response)['answer'])
     history[-1][1] = literal_eval(response)['answer']
     return history,literal_eval(response)['revelant_context']
