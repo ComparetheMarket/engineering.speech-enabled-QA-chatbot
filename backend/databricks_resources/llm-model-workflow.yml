@@ -3,6 +3,8 @@ new_cluster: &new_cluster
     spark_version: 13.2.x-gpu-ml-scala2.12
     node_type_id: g5.12xlarge
     driver_node_type_id: g5.12xlarge
+    aws_attributes:
+      zone_id: auto
     custom_tags:
       clusterSource: llm-stack/0.1
       ResourceClass: SingleNode
