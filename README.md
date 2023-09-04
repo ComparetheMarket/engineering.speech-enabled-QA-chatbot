@@ -1,6 +1,8 @@
 # speech-enabled-QA-chatbot
 A Q&A chatbot with ability to recognise speech 
 
+![plot](./Speech-enabled-QA-bot.png)
+
 ## Requirements
 
 1. Create a .env file in the app folder and add the following parameters:
