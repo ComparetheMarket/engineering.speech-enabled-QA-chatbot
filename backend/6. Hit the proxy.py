@@ -2,9 +2,7 @@
 import requests
 import json
 
-def request_llamav2_13b(question):
-    token = "<xxxxxx>"
-    url = '<xxxxxxx>'
+def request_llamav2_13b(question, url,token):
     
     headers = {
         "Content-Type": "application/json",

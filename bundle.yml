@@ -5,8 +5,9 @@ bundle:
 include:
   # Defines workflow for loading model and creating a reverse proxy method
   - ./backend/databricks_resources/llm-model-workflow.yml
+  - ./backend/databricks_resources/vector-search-workflow.yml
 
 environments:
   production:
     workspace:
-      host:  https://e2-dogfood.staging.cloud.databricks.com/
+      host:  https://e2-demo-field-eng.cloud.databricks.com/

@@ -124,7 +124,7 @@ print(long_text)
 # COMMAND ----------
 
 # DBTITLE 1,Split Text into Chunks
-text_splitter = TokenTextSplitter(chunk_size=2000, chunk_overlap=300)
+text_splitter = TokenTextSplitter(chunk_size=512, chunk_overlap=50)
 for chunk in text_splitter.split_text(long_text):
   print(chunk, '\n')
 
@@ -141,8 +141,8 @@ for chunk in text_splitter.split_text(long_text):
 # COMMAND ----------
 
 # DBTITLE 1,Chunking Configurations
-chunk_size = 1024
-chunk_overlap = 350
+chunk_size = 512
+chunk_overlap = 50
 
 # COMMAND ----------
 

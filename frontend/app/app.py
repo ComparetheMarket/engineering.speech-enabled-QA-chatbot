@@ -61,7 +61,6 @@ def transcribe_audio(audio, history):
             / 2**15
         ).astype(int)
     dataset = pd.DataFrame({"audio": audio_resampled, "sampling_rate": 16000})
-    time.sleep(5)
     transcribed = query_transcription_endpoint(dataset)
     print("transcribed:",transcribed)
     history +=  [(transcribed,None)]
@@ -105,14 +104,14 @@ with gr.Blocks() as demo:
 
         with gr.Column():
             raw_text = gr.Textbox(label="Document from which the answer was generated",scale=50)
-            raw_source = gr.Textbox(label="Source of the Document",scale=1)
+            # raw_source = gr.Textbox(label="Source of the Document",scale=1)
     # with gr.Row():
     #   examples = gr.Examples(examples=["what is limit of the misfueling cost covered in the policy?", "what happens if I lose my keys?","what is the duration for the policy bought by the policy holder mentioned in the policy schedule / Validation schedule","What is the maximum Age of a Vehicle the insurance covers?"],
     #                     inputs=[msg])
     # msg.submit(respond, [msg, chatbot], [msg, chatbot,raw_text,raw_source])
     # submit.click(respond, [audio, chatbot], [audio, chatbot])
     audio_submit = audio.stop_recording(transcribe_audio, [audio, chatbot], chatbot).then(
-        get_llm_response, chatbot, [chatbot,raw_source]).then(lambda :None, None, audio)
+        get_llm_response, chatbot, [chatbot,raw_text]).then(lambda :None, None, audio)
 
 
 if __name__ == "__main__":
