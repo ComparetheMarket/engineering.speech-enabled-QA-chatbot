@@ -60,7 +60,7 @@ with gr.Blocks() as demo:
     with gr.Row():
         gr.Markdown(
             f"""
-             # Ask me anything about your Insurance Policy. 
+             # Ask me anything about your Car Insurance Policy. 
              ### I am powered by Llama2 and Whisper.
             """
         )

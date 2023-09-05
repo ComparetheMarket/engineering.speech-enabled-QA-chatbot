@@ -20,7 +20,7 @@ permissions: &permissions
 resources:
   jobs:
     deploy_llm:
-      name: ${bundle.environment}-load-llm
+      name: ${bundle.environment}-${workspace.current_user.userName}-load-llm
       job_clusters:
         - job_cluster_key: open-llm-cluster
           <<: *new_cluster
