@@ -6,6 +6,27 @@ import json
 from time import time
 
 
+def query_transcription_endpoint(
+    dataset,
+    url,
+    databricks_token,
+    transciption_model
+    ):
+    url = f"{url}/serving-endpoints/{transciption_model}/invocations"
+
+    headers = {
+        "Authorization": f"Bearer {databricks_token}",
+        "Content-Type": "application/json",
+    }
+    ds_dict = {"dataframe_split": dataset.to_dict(orient="split")}
+    data_json = json.dumps(ds_dict, allow_nan=True)
+    response = requests.request(method="POST", headers=headers, url=url, data=data_json)
+    if response.status_code != 200:
+        raise Exception(
+            f"Request failed with status {response.status_code}, {response.text}"
+        )
+
+    return response.json()["predictions"][0]
 
 class databricks_qa_chain:
     def __init__(self,token,databricks_host,args):

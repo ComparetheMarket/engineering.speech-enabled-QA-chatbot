@@ -6,6 +6,14 @@
 
 # COMMAND ----------
 
+# MAGIC %pip install torch
+
+# COMMAND ----------
+
+dbutils.library.restartPython()
+
+# COMMAND ----------
+
 import pandas as pd
 import numpy as np
 import transformers
@@ -54,6 +62,11 @@ input_example=pd.DataFrame({
 signature = infer_signature(input_example, "some random text")
 
 # Log the model with its details such as artifacts, pip requirements and input example
+user_name = dbutils.notebook.entry_point.getDbutils().notebook().getContext().userName().get()
+
+
+mlflow.create_experiment(f"/Users/{user_name}/whisper")
+mlflow.set_experiment(f"/Users/{user_name}/whisper")
 with mlflow.start_run() as run:  
     mlflow.pyfunc.log_model(
         "model",
@@ -69,7 +82,7 @@ with mlflow.start_run() as run:
 # Register model in MLflow Model Registry
 result = mlflow.register_model(
     "runs:/"+run.info.run_id+"/model",
-    "whisper-sepideh"
+    "whisper-cmt"
 )
 
 # COMMAND ----------

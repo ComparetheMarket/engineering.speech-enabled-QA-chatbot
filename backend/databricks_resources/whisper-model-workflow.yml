@@ -19,16 +19,16 @@ permissions: &permissions
 
 resources:
   jobs:
-    deploy_vector-search:
-      name: ${bundle.environment}-create-vector-search-db
+    deploy_whisper:
+      name: ${bundle.environment}-load-whisper
       job_clusters:
-        - job_cluster_key: vector-search-cluster
+        - job_cluster_key: whisper-cluster
           <<: *new_cluster
       tasks:
-        - task_key: load_model
-          job_cluster_key: vector-search-cluster
+        - task_key: register_transcription_model
+          job_cluster_key: whisper-cluster
           notebook_task:
-            notebook_path: ../01_build_document_index.py
+            notebook_path: ../07_register_model_whisper.py
             base_parameters:
               # TODO modify these arguments to reflect your setup.
               # git source information of current ML resource deployment. It will be persisted as part of the workflow run

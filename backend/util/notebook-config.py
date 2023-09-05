@@ -19,7 +19,7 @@ config['use-case']="insurance_qa_bot"
 config['model_id'] = 'meta-llama/Llama-2-13b-chat-hf'
 # config['model_id'] = 'mosaicml/mpt-30b-chat'
 username = dbutils.notebook.entry_point.getDbutils().notebook().getContext().tags().apply('user')
-config['use_azure_formrecognizer'] = True
+config['use_azure_formrecognizer'] = False
 
 # COMMAND ----------
 
@@ -41,7 +41,7 @@ if config['model_id'] == 'openai':
   os.environ['OPENAI_API_KEY'] = 'xxxxxxxx'
 
 if "Llama-2" in config['model_id']:
-  config['HUGGING_FACE_HUB_TOKEN'] = 'xxxxxxxxx'
+  config['HUGGING_FACE_HUB_TOKEN'] = 'xxxxxxxx'
 
 # COMMAND ----------
 
