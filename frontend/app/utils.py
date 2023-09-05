@@ -68,7 +68,10 @@ class databricks_qa_chain:
             except yaml.YAMLError as exc:
                 print(exc)
 
-        run_name = job_details['resources']['jobs']['deploy_llm']['name'].replace("${bundle.environment}",self.args)
+        run_name = job_details['resources']['jobs']['deploy_llm']['name'].replace("${bundle.environment}",
+                                                                                  self.args).\
+                                                        replace("${workspace.current_user.userName}",
+                                                                w.current_user.me().user_name)
         print(run_name)
         for job in job_list:
             if job.run_name == run_name:
