@@ -16,7 +16,7 @@ A Q&A chatbot with ability to recognise speech and answer questions from Documen
     ```
 1. Setup a profile using databricks CLI. you will need workspace url and token refer [here]( https://docs.databricks.com/en/dev-tools/cli/databricks-cli-ref.html#databricks-personal-access-token-authentication) on how to set it up
     ```
-    databricks configure --host <workspace-url> --profile <some-unique-configuration-profile-name>
+    databricks configure --host <workspace-url> --profile <some-unique-configuration-profile-name> -t
     ```
 2. Create a .env file in the frontend/app folder and add the following parameters:
    You can create a token in *User settings* withing the Databricks workspace your model is served in.
