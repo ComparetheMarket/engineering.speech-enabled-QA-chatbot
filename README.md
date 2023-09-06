@@ -5,7 +5,10 @@ A Q&A chatbot with ability to recognise speech and answer questions from Documen
 
 ## Follow the below steps to setup machine to deploy the App
 
-1. TODO: Download the policy documents to dbfs.
+1. Please change the **util/notebook-config.py** to point to the location where your files are stored.
+    ```
+    config['loc']  = <"Location where the files are stored">
+    ```
 1. You need the latest databricks-cli to using Asset bundle. please un-install existing databricks and follow the [link](https://docs.databricks.com/en/dev-tools/cli/databricks-cli-ref.html#language-Homebrew%C2%A0installation%C2%A0on%C2%A0macOS%C2%A0or%C2%A0Linux)
     ```
     brew tap databricks/tap
