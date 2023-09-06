@@ -16,3 +16,6 @@ deploy-whisper:
 
 launch-ui:
 	cd frontend/app && python app.py
+
+install-requirement:
+	cd frontend && pip install -r requirements.txt

@@ -31,7 +31,7 @@ A Q&A chatbot with ability to recognise speech and answer questions from Documen
     ```
 4. Install python requirements:
     ```
-    pip install -r requirements.txt
+    make install-requirement
     ```
 4. Add your workspace url to asset bundle file (bundle.yml):
     ```
