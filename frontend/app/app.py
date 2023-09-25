@@ -55,6 +55,14 @@ def get_llm_response(history):
     history[-1][1] = literal_eval(response)["answer"]
     return history, literal_eval(response)["revelant_context"]
 
+def get_llm_response_text(history,question):
+    # history[-1][1] = ""
+    print(history)
+    response = qa_chain.request_llm_response(question)
+    print("response:", response)
+    print("response:", literal_eval(response)["answer"])
+    history.append((question, literal_eval(response)["answer"]))
+    return history, literal_eval(response)["revelant_context"]
 
 with gr.Blocks() as demo:
     with gr.Row():
@@ -70,19 +78,23 @@ with gr.Blocks() as demo:
                 avatar_images=("image/user.jpg", "image/databricks_logo.png")
             )
             audio = gr.Audio(source="microphone", type="numpy", format="mp3")
+            msg = gr.Textbox(label="Ask your Question")
             clear = gr.ClearButton([audio, chatbot])
 
         with gr.Column():
             raw_text = gr.Textbox(
                 label="Document from which the answer was generated", scale=50
             )
+    with gr.Row():
+      examples = gr.Examples(examples=["what is limit of the misfueling cost covered in the policy?", "what happens if I lose my keys?","what is the duration for the policy bought by the policy holder mentioned in the policy schedule / Validation schedule","What is the maximum Age of a Vehicle the insurance covers?"],
+                        inputs=[msg])
 
     audio_submit = (
         audio.stop_recording(transcribe_audio, [audio, chatbot], chatbot)
         .then(get_llm_response, chatbot, [chatbot, raw_text])
-        .then(lambda: None, None, audio)
-    )
+        .then(lambda: None, None, audio))
 
+    msg.submit(get_llm_response_text, [chatbot,msg] ,[chatbot, raw_text])
 
 if __name__ == "__main__":
     demo.queue()
